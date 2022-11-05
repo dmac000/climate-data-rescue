@@ -127,8 +127,11 @@
           = link_to t('view-list-of-pages-to-transcribe'), public_pages_index_path, class: "btn btn-primary"
 
     javascript:
+      // import $ from 'jquery'
+
       var currentPage = 1;
       var perPage = 20;
+      // Problem?
       $('#toggle-completed-transcriptions').tooltip();
       $('#completed-transcriptions-container').on('hide.bs.collapse', function () {
         $('#toggle-completed-transcriptions > i').removeClass('fa-caret-up').addClass('fa-caret-down');

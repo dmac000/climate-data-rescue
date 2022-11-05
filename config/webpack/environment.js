@@ -3,6 +3,7 @@ const { environment } = require('@rails/webpacker')
 const { VueLoaderPlugin } = require('vue-loader')
 const vue = require('./loaders/vue')
 const erb = require('./loaders/erb')
+const exposeLoader = require('./loaders/expose')
 
 const webpack = require('webpack')
 // const isProduction = process.env.NODE_ENV === 'production'
@@ -10,6 +11,7 @@ const webpack = require('webpack')
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin())
 environment.loaders.prepend('vue', vue)
 environment.loaders.prepend('erb', erb)
+// environment.loaders.append('exposeLoader', exposeLoader)
 
 // if (!isProduction) {
 //   const eslint = require('./loaders/eslint')
@@ -23,6 +25,37 @@ environment.plugins.prepend('env',
     'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   })
 )
+
+// TODO: check/do for marionete, backbone etc?
+environment.plugins.append("Provide",
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery',
+    Popper: ['popper.js', 'default']
+  })
+)
+
+// environment.loaders.append('expose', {
+//   test: require.resolve('jquery'),
+//   use: [{
+//     loader: 'expose-loader',
+//     options: 'jQuery'
+//   }, {
+//     loader: 'expose-loader',
+//     options: '$'
+//   }]
+// })
+
+// // environment.loaders.append('jquery', 
+// //   {
+// //     test: require.resolve('jquery'),
+// //     loader: 'expose-loader',
+// //     options: {
+// //       exposes: ['$', 'jQuery']
+// //     }
+// //   }
+// // )
 
 // added and allow BootstrapVue to work.
 const config = environment.toWebpackConfig()
